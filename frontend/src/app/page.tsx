@@ -8,19 +8,25 @@ import {
   Loader2,
   Plus,
   Trash2,
+  Search,
 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { snippetSchema, SnippetFormValues } from "@/lib/validations/snippet";
 import { ISnippet } from "@/types/snippet";
+import { useState } from "react";
+import { useDebounce } from "use-debounce";
 
 export default function HomePage() {
   const queryClient = useQueryClient();
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch] = useDebounce(searchQuery, 500);
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["snippets"],
-    queryFn: () => SnippetService.getAll(),
+    queryKey: ["snippets", debouncedSearch],
+    queryFn: () => SnippetService.getAll({ q: debouncedSearch }),
   });
 
   const {
@@ -148,7 +154,21 @@ export default function HomePage() {
           </button>
         </form>
       </section>
-
+      <div className="mb-6">
+        <div className="relative">
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            size={20}
+          />
+          <input
+            type="text"
+            placeholder="Search snippets by title or content..."
+            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {data?.data.map((snippet) => (
           <div
