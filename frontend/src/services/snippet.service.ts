@@ -13,4 +13,8 @@ export const SnippetService = {
     const { data } = await api.post<ISnippet>("/snippets", payload);
     return data;
   },
+  async remove(id: string) {
+    const { data } = await api.delete(`/snippets/${id}`);
+    return data;
+  },
 };
