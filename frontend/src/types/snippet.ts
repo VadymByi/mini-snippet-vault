@@ -1,5 +1,6 @@
 export type SnippetType = "note" | "command" | "link";
 
+// MAIN SNIPPET ENTITY TYPE
 export interface ISnippet {
   _id: string;
   title: string;
@@ -10,6 +11,7 @@ export interface ISnippet {
   updatedAt: string;
 }
 
+// GENERIC PAGINATED API RESPONSE WRAPPER
 export interface PaginatedResponse<T> {
   data: T[];
   total: number;
