@@ -48,3 +48,14 @@ Features Implemented
 Backend: Full CRUD functionality, DTO validation, MongoDB text index for title and content search, and built-in pagination logic.
 Frontend: Snippet creation form with Zod validation, real-time search with 500ms debounce to optimize API calls, loading and error states, and responsive UI.
 Type Safety: Shared interfaces and strict TypeScript usage throughout the project to prevent runtime errors.
+
+What’s Next (Future Improvements)
+Due time constraint, some features were intentionally left out. Here is how I would enhance the service:
+
+Pagination UI: While the backend fully supports pagination (page/limit), the frontend currently displays only the first page. I would add a "Load More" button or a classic pagination component to handle large datasets.
+
+Form Persistence: To improve UX, I would implement localStorage caching for the creation form. This prevents data loss if a user accidentally refreshes the page while typing a long snippet.
+
+Advanced Search: I would transition from Regex-based search to MongoDB Text Search or Atlas Search for better performance and support for fuzzy matching/partial word search.
+
+Enhanced Tag Filtering: Currently, tags are filtered via a general search query. I would implement a dedicated tag-selection system on the frontend for more precise results.
