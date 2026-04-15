@@ -14,7 +14,10 @@ async function bootstrap() {
   );
 
   app.enableCors();
+  console.log('🚀 Starting server...');
+  const port = Number(process.env.PORT);
+  console.log('✅ Server started');
 
- await app.listen(process.env.PORT || 3001);
+  await app.listen(port, '0.0.0.0');
 }
 bootstrap();
