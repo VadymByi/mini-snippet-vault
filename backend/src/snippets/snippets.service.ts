@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import * as mongoose from 'mongoose';
+import { Model, QueryFilter } from 'mongoose';
 import { CreateSnippetDto } from './dto/create-snippet.dto';
 import { UpdateSnippetDto } from './dto/update-snippet.dto';
 import { Snippet } from './schemas/snippet.schema';
@@ -24,14 +23,19 @@ export class SnippetsService {
     limit?: number;
   }) {
     const { q, tag, page = 1, limit = 10 } = query;
-    const filters: mongoose.QueryFilter<Snippet> = {};
-
-    if (q) {
-      filters.$text = { $search: q };
-    }
+    const filters: QueryFilter<Snippet> = {};
 
     if (tag) {
       filters.tags = tag;
+    }
+
+    if (q) {
+      const searchRegex = new RegExp(q, 'i');
+      filters.$or = [
+        { title: searchRegex },
+        { content: searchRegex },
+        { tags: { $in: [searchRegex] } },
+      ];
     }
 
     const skip = (page - 1) * limit;
@@ -53,7 +57,6 @@ export class SnippetsService {
       lastPage: Math.ceil(total / limit),
     };
   }
-
   async findOne(id: string): Promise<Snippet> {
     const snippet = await this.snippetModel.findById(id).exec();
     if (!snippet) {
