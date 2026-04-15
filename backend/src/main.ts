@@ -13,10 +13,11 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors();
-  console.log('🚀 Starting server...');
-  const port = Number(process.env.PORT);
-  console.log('✅ Server started');
+  app.enableCors({
+    origin: 'https://mini-snippet-vault-six.vercel.app',
+  });
+
+  const port = process.env.PORT ? Number(process.env.PORT) : 3001;
 
   await app.listen(port, '0.0.0.0');
 }

@@ -1,5 +1,7 @@
 Mini Snippet Vault
+
 A full-stack service for saving and managing useful information fragments like code commands, notes, and links. Built as a technical assignment for a Junior FullStack Developer position.
+Live Demo: https://mini-snippet-vault-six.vercel.app/
 
 Tech Stack
 Frontend: Next.js (App Router), TypeScript, Tailwind CSS, TanStack Query, Axios, Zod, React Hook Form.
